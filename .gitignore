@@ -1,0 +1,5 @@
+# Ignora la carpeta muju
+muju
+build
+latex
+html
