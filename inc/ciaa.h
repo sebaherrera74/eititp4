@@ -29,8 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BSP_H   /*! @cond    */
-#define BSP_H   /*! @endcond */
+#ifndef CIAA_H   /*! @cond    */
+#define CIAA_H   /*! @endcond */
+
 
 /** @file plantilla.h
  **
@@ -52,8 +53,6 @@
 
 /* === Inclusiones de archivos externos ==================================== */
 
-#include "digital.h"
-#include "chip.h"
 /* === Cabecera C++ ======================================================== */
 #ifdef __cplusplus
 extern "C" {
@@ -61,25 +60,71 @@ extern "C" {
 
 /* === Definicion y Macros publicos ======================================== */
 
+#define LED_R_PORT 2
+#define LED_R_PIN 0
+#define LED_R_FUNC SCU_MODE_FUNC4
+#define LED_R_GPIO 5
+#define LED_R_BIT 0
+
+#define LED_G_PORT 2
+#define LED_G_PIN 1
+#define LED_G_FUNC SCU_MODE_FUNC4
+#define LED_G_GPIO 5
+#define LED_G_BIT 1
+
+#define LED_B_PORT 2
+#define LED_B_PIN 2
+#define LED_B_FUNC SCU_MODE_FUNC4
+#define LED_B_GPIO 5
+#define LED_B_BIT 2
+
+#define LED_1_PORT 2
+#define LED_1_PIN 10
+#define LED_1_FUNC SCU_MODE_FUNC0
+#define LED_1_GPIO 0
+#define LED_1_BIT 14
+
+#define LED_2_PORT 2
+#define LED_2_PIN 11
+#define LED_2_FUNC SCU_MODE_FUNC0
+#define LED_2_GPIO 1
+#define LED_2_BIT 11
+
+#define LED_3_PORT 2
+#define LED_3_PIN 12
+#define LED_3_FUNC SCU_MODE_FUNC0
+#define LED_3_GPIO 1
+#define LED_3_BIT 12
+
+#define TEC_1_PORT 1
+#define TEC_1_PIN 0
+#define TEC_1_FUNC SCU_MODE_FUNC0
+#define TEC_1_GPIO 0
+#define TEC_1_BIT 4
+
+#define TEC_2_PORT 1
+#define TEC_2_PIN 1
+#define TEC_2_FUNC SCU_MODE_FUNC0
+#define TEC_2_GPIO 0
+#define TEC_2_BIT 8
+
+#define TEC_3_PORT 1
+#define TEC_3_PIN 2
+#define TEC_3_FUNC SCU_MODE_FUNC0
+#define TEC_3_GPIO 0
+#define TEC_3_BIT 9
+
+#define TEC_4_PORT 1
+#define TEC_4_PIN 6
+#define TEC_4_FUNC SCU_MODE_FUNC0
+#define TEC_4_GPIO 1
+#define TEC_4_BIT 9
 /* == Declaraciones de tipos de datos publicos ============================= */
-typedef struct board_s{
-	digital_output_t ledAzul;
-    digital_output_t ledRojo;
-    digital_output_t ledAmarillo;
-    digital_output_t ledVerde;
-
-    digital_input_t botonPrueba;
-    digital_input_t botonCambiar;
-    digital_input_t botonPrender;
-    digital_input_t botonApagar;
-
-}const * board_t;
 
 /* === Declaraciones de variables publicas ================================= */
 
 /* === Declaraciones de funciones publicas ================================= */
 
-board_t BoardCreate(void);
 
 /* === Ciere de documentacion ============================================== */
 #ifdef __cplusplus
@@ -88,4 +133,5 @@ board_t BoardCreate(void);
 
 /** @} Final de la definición del modulo para doxygen */
 
-#endif   /* BSP_H */
+#endif   /* CIAA_H */
+
