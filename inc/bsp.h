@@ -63,15 +63,16 @@ extern "C" {
 
 /* == Declaraciones de tipos de datos publicos ============================= */
 typedef struct board_s{
-	digital_output_t ledAzul;
-    digital_output_t ledRojo;
-    digital_output_t ledAmarillo;
-    digital_output_t ledVerde;
+	digital_output_t buzzer ;
 
-    digital_input_t botonPrueba;
-    digital_input_t botonCambiar;
-    digital_input_t botonPrender;
-    digital_input_t botonApagar;
+    digital_input_t set_time;
+    digital_input_t set_alarm;
+    digital_input_t decrement;
+    digital_input_t increment;
+    digital_input_t accept;
+    digital_input_t cancel;
+
+
 
 }const * board_t;
 
