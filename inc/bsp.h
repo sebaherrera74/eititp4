@@ -71,9 +71,6 @@ typedef struct board_s{
     digital_input_t increment;
     digital_input_t accept;
     digital_input_t cancel;
-
-
-
 }const * board_t;
 
 /* === Declaraciones de variables publicas ================================= */

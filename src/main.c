@@ -40,14 +40,40 @@
 
 #include "bsp.h"
 #include <stdbool.h>
+#include "chip.h"
+#include  "poncho.h"
 
 /* === Macros definitions ====================================================================== */
+
+//Definiciones de bits asociados a cada segmento para construir los digitos
+#define SEGMENT_A  (1<<0)
+#define SEGMENT_B  (1<<1)
+#define SEGMENT_C  (1<<2)
+#define SEGMENT_D  (1<<3)
+#define SEGMENT_E  (1<<4)
+#define SEGMENT_F  (1<<5)
+#define SEGMENT_G  (1<<6)
+#define SEGMENT_P  (1<<7)
 
 
 
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
+static const uint8_t IMAGES[]={
+		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_E|SEGMENT_F,             //< 0
+		SEGMENT_B|SEGMENT_C,                                                      //< 1
+		SEGMENT_A |SEGMENT_B|SEGMENT_D|SEGMENT_E|SEGMENT_G,         	          //< 2
+		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_G,                       //< 3
+		SEGMENT_F |SEGMENT_B|SEGMENT_G|SEGMENT_C,                                 //< 4
+		SEGMENT_A |SEGMENT_F|SEGMENT_G|SEGMENT_C|SEGMENT_D,                       //< 5
+		SEGMENT_A |SEGMENT_F|SEGMENT_G|SEGMENT_C|SEGMENT_D|SEGMENT_E ,            //< 6
+		SEGMENT_A |SEGMENT_B|SEGMENT_C,                                           //< 7
+		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_E|SEGMENT_F|SEGMENT_G ,  //< 8
+		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_F|SEGMENT_G ,                      //< 9
+
+};
+
 
 /* === Private function declarations =========================================================== */
 
@@ -56,20 +82,30 @@
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
+void WriteNumber(uint8_t number){
+	Chip_GPIO_SetValue(LPC_GPIO_PORT, SEGMENTS_GPIO,IMAGES[number]);
+}
+
+void SelectDigit (uint8_t digit){
+	Chip_GPIO_SetValue(LPC_GPIO_PORT, DIGITS_GPIO,(1<<digit));
+}
 
 /* === Public function implementation ========================================================= */
 
 int main(void) {
 
-    int divisor  = 0;
-    bool current_state, last_state = false;
+	int divisor  = 0;
+	bool current_state, last_state = false;
 
-    board_t board=BoardCreate();
+	board_t board=BoardCreate();
 
 
 
-    while (true) {
-        if (DigitalInputGetState(board->botonPrueba) == 0) {
+	while (true) {
+		Chip_GPIO_SetPinState(LPC_GPIO_PORT,SEGMENT_A_GPIO,SEGMENT_A_BIT, true);
+
+
+		/*if (DigitalInputGetState(board->botonPrueba) == 0) {
         	DigitalOutputActivate(board->ledAzul);
         } else {
         	 DigitalOutputDeactivate(board->ledAzul);
@@ -97,13 +133,14 @@ int main(void) {
             DigitalOutputToogle(board->ledVerde);
 
         }
+        //DigitalOutputActivate(board->);*/
 
-        for (int index = 0; index < 100; index++) {
-            for (int delay = 0; delay < 25000; delay++) {
-                __asm("NOP");
-            }
-        }
-    }
+		for (int index = 0; index < 100; index++) {
+			for (int delay = 0; delay < 25000; delay++) {
+				__asm("NOP");
+			}
+		}
+	}
 }
 
 /* === End of documentation ==================================================================== */
