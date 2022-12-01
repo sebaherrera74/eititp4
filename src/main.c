@@ -40,39 +40,16 @@
 
 #include "bsp.h"
 #include <stdbool.h>
-#include "chip.h"
-#include  "poncho.h"
+#include "pantalla.h"
+
 
 /* === Macros definitions ====================================================================== */
-
-//Definiciones de bits asociados a cada segmento para construir los digitos
-#define SEGMENT_A  (1<<0)
-#define SEGMENT_B  (1<<1)
-#define SEGMENT_C  (1<<2)
-#define SEGMENT_D  (1<<3)
-#define SEGMENT_E  (1<<4)
-#define SEGMENT_F  (1<<5)
-#define SEGMENT_G  (1<<6)
-#define SEGMENT_P  (1<<7)
 
 
 
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
-static const uint8_t IMAGES[]={
-		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_E|SEGMENT_F,             //< 0
-		SEGMENT_B|SEGMENT_C,                                                      //< 1
-		SEGMENT_A |SEGMENT_B|SEGMENT_D|SEGMENT_E|SEGMENT_G,         	          //< 2
-		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_G,                       //< 3
-		SEGMENT_F |SEGMENT_B|SEGMENT_G|SEGMENT_C,                                 //< 4
-		SEGMENT_A |SEGMENT_F|SEGMENT_G|SEGMENT_C|SEGMENT_D,                       //< 5
-		SEGMENT_A |SEGMENT_F|SEGMENT_G|SEGMENT_C|SEGMENT_D|SEGMENT_E ,            //< 6
-		SEGMENT_A |SEGMENT_B|SEGMENT_C,                                           //< 7
-		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_D|SEGMENT_E|SEGMENT_F|SEGMENT_G ,  //< 8
-		SEGMENT_A |SEGMENT_B|SEGMENT_C|SEGMENT_F|SEGMENT_G ,                      //< 9
-
-};
 
 
 /* === Private function declarations =========================================================== */
@@ -82,45 +59,30 @@ static const uint8_t IMAGES[]={
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
-void WriteNumber(uint8_t number){
-	Chip_GPIO_SetValue(LPC_GPIO_PORT, SEGMENTS_GPIO,IMAGES[number]);
-}
 
-void SelectDigit (uint8_t digit){
-	Chip_GPIO_SetValue(LPC_GPIO_PORT, DIGITS_GPIO,(1<<digit));
-}
-
-void ScreenOff(void){
-	Chip_GPIO_ClearValue(LPC_GPIO_PORT, DIGITS_GPIO,DIGITS_MASK);
-	Chip_GPIO_ClearValue(LPC_GPIO_PORT, SEGMENTS_GPIO,SEGMENTS_MASK);
-}
 
 /* === Public function implementation ========================================================= */
 
 int main(void) {
 
-	int divisor  = 0;
-	bool current_state, last_state = false;
-	uint8_t actual=0;
-	bool refrescar =true;
 
-	uint8_t screen[4]={1,2,3,4};
+	int divisor  = 0;
+
+	display_t display=DisplayCreate(4);
+
+	uint8_t numero[4]={1,2,3,4};
 
 
 	board_t board=BoardCreate();
 
+	DisplayWriteBCD(display,numero,sizeof(numero));
 
 
 	while (true) {
-		ScreenOff();
-		WriteNumber(screen[actual]);
-		SelectDigit(actual);
-		if (actual==3){
-			actual=0;
-		}else {
+		DisplayRefresh(display);
 
-			actual=actual+1;
-		}
+
+
 
 
 
