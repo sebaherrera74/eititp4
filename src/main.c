@@ -90,19 +90,38 @@ void SelectDigit (uint8_t digit){
 	Chip_GPIO_SetValue(LPC_GPIO_PORT, DIGITS_GPIO,(1<<digit));
 }
 
+void ScreenOff(void){
+	Chip_GPIO_ClearValue(LPC_GPIO_PORT, DIGITS_GPIO,DIGITS_MASK);
+	Chip_GPIO_ClearValue(LPC_GPIO_PORT, SEGMENTS_GPIO,SEGMENTS_MASK);
+}
+
 /* === Public function implementation ========================================================= */
 
 int main(void) {
 
 	int divisor  = 0;
 	bool current_state, last_state = false;
+	uint8_t actual=0;
+	bool refrescar =true;
+
+	uint8_t screen[4]={1,2,3,4};
+
 
 	board_t board=BoardCreate();
 
 
 
 	while (true) {
-		Chip_GPIO_SetPinState(LPC_GPIO_PORT,SEGMENT_A_GPIO,SEGMENT_A_BIT, true);
+		ScreenOff();
+		WriteNumber(screen[actual]);
+		SelectDigit(actual);
+		if (actual==3){
+			actual=0;
+		}else {
+
+			actual=actual+1;
+		}
+
 
 
 		/*if (DigitalInputGetState(board->botonPrueba) == 0) {
@@ -135,10 +154,10 @@ int main(void) {
         }
         //DigitalOutputActivate(board->);*/
 
-		for (int index = 0; index < 100; index++) {
+		//for (int index = 0; index < 100; index++) {
 			for (int delay = 0; delay < 25000; delay++) {
 				__asm("NOP");
-			}
+			//}
 		}
 	}
 }
