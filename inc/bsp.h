@@ -54,6 +54,7 @@
 
 #include "digital.h"
 #include "chip.h"
+#include "pantalla.h"
 /* === Cabecera C++ ======================================================== */
 #ifdef __cplusplus
 extern "C" {
@@ -71,6 +72,7 @@ typedef struct board_s{
     digital_input_t increment;
     digital_input_t accept;
     digital_input_t cancel;
+    display_t display;
 }const * board_t;
 
 /* === Declaraciones de variables publicas ================================= */

@@ -141,10 +141,9 @@ digital_input_t DigitalInputCreate(uint8_t gpio, uint8_t bit){
 
 void DigitalOutputActivate(digital_output_t output){
 	Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, true);
-
 }
-void DigitalOutputDeactivate(digital_output_t output){
 
+void DigitalOutputDeactivate(digital_output_t output){
 	Chip_GPIO_SetPinState(LPC_GPIO_PORT,output->gpio, output->bit, false);
 }
 void DigitalOutputToogle(digital_output_t output){

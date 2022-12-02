@@ -37,10 +37,11 @@
 
 /* === Headers files inclusions =============================================================== */
 
-
 #include "bsp.h"
 #include <stdbool.h>
-#include "pantalla.h"
+
+
+
 
 
 /* === Macros definitions ====================================================================== */
@@ -54,6 +55,7 @@
 
 /* === Private function declarations =========================================================== */
 
+
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
@@ -65,27 +67,12 @@
 
 int main(void) {
 
-
-	int divisor  = 0;
-
-	display_t display=DisplayCreate(4);
-
 	uint8_t numero[4]={1,2,3,4};
-
-
 	board_t board=BoardCreate();
-
-	DisplayWriteBCD(display,numero,sizeof(numero));
-
+	DisplayWriteBCD(board->display,numero,sizeof(numero));
 
 	while (true) {
-		DisplayRefresh(display);
-
-
-
-
-
-
+		DisplayRefresh(board->display);
 		/*if (DigitalInputGetState(board->botonPrueba) == 0) {
         	DigitalOutputActivate(board->ledAzul);
         } else {

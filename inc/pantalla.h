@@ -67,7 +67,19 @@ extern "C" {
 #define SEGMENT_P  (1<<7)
 
 /* == Declaraciones de tipos de datos publicos ============================= */
+//! Referecia a un descripor para gestionar una pantalla de siete segmentos multiplexada
 typedef struct display_s * display_t;
+
+typedef void (*display_screen_off_t)(void);  //Es un puntero a una funcion que no recibe parametros y no devuelve parametros
+typedef void (*display_segments_on_t)(uint8_t segments);
+typedef void (*display_digit_on_t)(uint8_t digit);
+
+
+typedef struct display_driver_s{
+	display_screen_off_t ScreenTurnOff;
+	display_segments_on_t SegmentsTurnOn;
+	display_digit_on_t DigitTurnOn;
+} const * display_driver_t;
 
 /* === Declaraciones de variables publicas ================================= */
 
@@ -79,7 +91,7 @@ typedef struct display_s * display_t;
  * @param[in] : digits Cantidad de digitos que forma la pantalla multiplexada
  * @return    : display_t Puntero al descriptor de la pantalla creada
 */
-display_t DisplayCreate (uint8_t digits);
+display_t DisplayCreate (uint8_t digits, display_driver_t driver);
 
 
 /**

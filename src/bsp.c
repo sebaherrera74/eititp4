@@ -52,6 +52,7 @@
 #include "poncho.h"
 #include "ciaa.h"
 
+
 //* === Macros definitions ====================================================================== */
 
 /* === Private data type declarations ========================================================== */
@@ -64,6 +65,11 @@ void DigitsInit(void);
 void SegmentsInit(void);
 void BuzzerInit(void);
 void KeysInit(void);
+void DisplayInit(void);
+void WriteNumber(uint8_t segments);
+void SelectDigit (uint8_t digit);
+void ScreenOff(void);
+
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
@@ -156,6 +162,27 @@ void KeysInit(void){
 
 }
 
+void DisplayInit(void){
+	static const struct display_driver_s display_driver ={
+				.ScreenTurnOff=ScreenOff,
+				. SegmentsTurnOn=WriteNumber,
+				.DigitTurnOn= SelectDigit,
+		};
+	board.display=DisplayCreate(4,&display_driver);
+}
+void WriteNumber(uint8_t segments){
+	Chip_GPIO_SetValue(LPC_GPIO_PORT, SEGMENTS_GPIO,segments);
+}
+
+void SelectDigit (uint8_t digit){
+	Chip_GPIO_SetValue(LPC_GPIO_PORT, DIGITS_GPIO,(1<<digit));
+}
+
+void ScreenOff(void){
+	Chip_GPIO_ClearValue(LPC_GPIO_PORT, DIGITS_GPIO,DIGITS_MASK);
+	Chip_GPIO_ClearValue(LPC_GPIO_PORT, SEGMENTS_GPIO,SEGMENTS_MASK);
+}
+
 
 /* === Public function implementation ========================================================= */
 board_t BoardCreate(void){
@@ -163,6 +190,7 @@ board_t BoardCreate(void){
 	SegmentsInit();
 	BuzzerInit();
 	KeysInit();
+	DisplayInit();
 	return &board;
 }
 
